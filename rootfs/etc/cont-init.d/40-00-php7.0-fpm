@@ -82,12 +82,6 @@ export PHP_SESSION_PATH="/opt/daspanel/data/$DASPANEL_SYS_UUID/sessions"
     < /opt/daspanel/conf-templates/engine-php70/php7/php-fpm.d/daspanel.conf.tmpl \
     > /etc/php7/php-fpm.d/daspanel.conf
 
-# Php-fpm for daspanel services
-/usr/bin/gomplate -d cfg=$DASPANEL_SYS_APISERVER/tenants/$DASPANEL_SYS_UUID \
-    -H "cfg=Authorization: $DASPANEL_SYS_APIKEY" \
-    < /opt/daspanel/conf-templates/engine-php70/php7/php-fpm.d/services.conf.tmpl \
-    > /etc/php7/php-fpm.d/services.conf
-
 # secure daspanel
 chown -R daspanel:daspanel /opt/daspanel/data
 chown -R daspanel:daspanel /opt/daspanel/log

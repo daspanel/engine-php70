@@ -1,11 +1,1 @@
-# Adminer
-adminer.svc.{{ (datasource "cfg").sys.hostname }}:443 {
-    errors stdout
-    log / stdout "[DASPANEL-HTTP-ACCESSLOG] {>Referer} {remote} {when} {method} {uri} {proto} {status} {size} {>User-Agent} {latency} {request}" 
-    root /opt/daspanel/services/adminer
-    gzip
-    tls self_signed
-    fastcgi / 127.0.0.1:9000 php
-}
-
 import sites-enabled/*.conf

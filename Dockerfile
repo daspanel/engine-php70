@@ -1,4 +1,3 @@
-
 FROM daspanel/alpine-base
 MAINTAINER Abner G Jacobsen - http://daspanel.com <admin@daspanel.com>
 
