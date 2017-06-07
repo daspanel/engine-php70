@@ -3,10 +3,18 @@
 {{ (getenv "SITECFG" | json).name }}:443 {
     errors stdout
     log / stdout "[DASPANEL-HTTP-ACCESSLOG] {>Referer} {remote} {when} {method} {uri} {proto} {status} {size} {>User-Agent} {latency} {request}" 
-    root /opt/daspanel/data/{{ getenv "DASPANEL_SYS_UUID" }}/{{ (getenv "SITECFG" | json).dir }}
+    root /opt/daspanel/data/{{ getenv "DASPANEL_SYS_UUID" }}/{{ (getenv "SITECFG" | json).dir }}/app/webroot
     gzip
     tls self_signed
     fastcgi / localhost:9000 php
+
+    # Begin - Security
+    ## End - Security
+
+    # global rewrite should come last.
+    rewrite {
+        to {path} {path}/ /index.php?{path}&{query}
+    }
     header / {
         X-Frame-Options        SAMEORIGIN
         X-Content-Type-Options nosniff
@@ -16,4 +24,3 @@
         -X-Powered-By
     }
 }
-
