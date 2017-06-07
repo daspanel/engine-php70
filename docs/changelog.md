@@ -1,8 +1,24 @@
 # Changelog - admindaspanel / engine-php70
 
+### 0.3.0
+__Changes__
+
+- bumped to version 0.3.0
+- Implemented the use of self signed SSL certificates as well as valid certificates signed by LetsEncrypt. Valid certificates are only used if the value of DASPANEL_SYS_HOSTNAME is not equal to 'daspanel.site'
+- Changed way as Caddy reloads vhosts from caddyfile as instructed in https://caddyserver.com/blog/certificate-management-policies
+
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Wed 07 Jun 2017 -
+[see the diff](https://github.com/admindaspanel/engine-php70/compare/0.2.0...0.3.0#diff)
+______________
+
 ### 0.2.0
 __Changes__
 
+- See changes in CHANGELOG.md
 - bumped to version 0.2.0
 - Changed repository from where download PHP7 and added more modules to allow usage of more apps like Nextcloud.
 
