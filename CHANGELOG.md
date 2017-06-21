@@ -1,8 +1,22 @@
 # Changelog - admindaspanel / engine-php70
 
+### 0.3.2
+__Changes__
+
+- bumped to version 0.3.2
+
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Wed 21 Jun 2017 -
+[see the diff](https://github.com/admindaspanel/engine-php70/compare/0.3.1...0.3.2#diff)
+______________
+
 ### 0.3.1
 __Changes__
 
+- See changes in CHANGELOG.md
 - bumped to version 0.3.1
 - Chg: Nextcloud template update.
 
