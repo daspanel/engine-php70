@@ -1,8 +1,22 @@
-FROM alpine:3.6
+FROM golang:1.9-alpine3.6 as builder-caddy
+LABEL maintainer="ulrich.schreiner@gmail.com"
+
+ENV CADDY_VERSION v0.10.10
+
+# Inject files in container file system
+COPY caddy-build /caddy-build
+
+RUN apk --no-cache update \
+    && apk --no-cache --update add git bash \
+    && cd /caddy-build \
+    && env OS=linux ARCH=amd64 ./build_caddy.sh \
+    && ls -la /caddy-build/caddy
+
+FROM daspanel/engine-base-dev:dev
 MAINTAINER Abner G Jacobsen - http://daspanel.com <admin@daspanel.com>
 
-# Thanks:
-#   https://github.com/openbridge/ob_php-fpm
+# Copy bynaries build before
+COPY --from=builder-caddy /caddy-build/caddy /usr/sbin/caddy
 
 # Parse Daspanel common arguments for the build command.
 ARG VERSION
@@ -14,8 +28,7 @@ ARG DASPANEL_IMG_NAME=engine-php70
 ARG DASPANEL_OS_VERSION=alpine3.6
 
 # Parse Container specific arguments for the build command.
-ARG CADDY_PLUGINS="http.cors,http.expires,http.filemanager,http.ratelimit,http.realip"
-ARG CADDY_URL="https://caddyserver.com/download/linux/amd64?plugins=${CADDY_PLUGINS}"
+ARG GOTTY_URL="https://github.com/yudai/gotty/releases/download/pre-release/gotty_2.0.0-alpha.2_linux_amd64.tar.gz"
 
 # PHP minimal modules to install - run's Worpress, Grav and others
 ARG PHP_MINIMAL="php7-fpm php7 php7-common php7-pear php7-phar php7-posix \
@@ -107,6 +120,9 @@ RUN set -x \
     && addgroup -g 82 -S www-data \
     && adduser -u 82 -D -S -h /home/www-data -s /sbin/nologin -G www-data www-data \
 
+    # Install specific OS packages needed by this image
+    && sh /opt/daspanel/bootstrap/${DASPANEL_OS_VERSION}/99_install_pkgs "git" \
+
     # Activate additional repositories
     && echo "http://php.codecasts.rocks/7.0" >> /etc/apk/repositories \
 
@@ -121,10 +137,10 @@ RUN set -x \
     && sh /opt/daspanel/bootstrap/${DASPANEL_OS_VERSION}/99_install_pkgs "${PHP_XDEBUG}" \
 
     # Install PHP Composer
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && curl --progress-bar -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 
     # Install PHPUnit
-    && curl -sSL https://phar.phpunit.de/phpunit-6.2.phar -o /usr/local/bin/phpunit \
+    && curl --progress-bar -sSL https://phar.phpunit.de/phpunit-6.2.phar -o /usr/local/bin/phpunit \
     && chmod +x /usr/local/bin/phpunit \
 
     # PECL fix
@@ -138,18 +154,20 @@ RUN set -x \
     # Cleanup after phpizing
     #&& rm -rf /usr/include/php7 /usr/lib/php7/build \
 
-    # Change www-data user and group to Daspanel default
-    #&& usermod -u 1000 www-data \
-    #&& groupmod -g 1000 www-data \
-
     # Remove build environment packages
     && sh /opt/daspanel/bootstrap/${DASPANEL_OS_VERSION}/${DASPANEL_IMG_NAME}/09_cleanbuildenv \
 
+    # Install gotty
+    && curl --progress-bar --show-error --fail --location \
+        --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o /tmp/gotty.tar.gz \
+        "${GOTTY_URL}" \
+    && tar -C /usr/sbin -xvzf /tmp/gotty.tar.gz \
+    && chmod 0755 /usr/sbin/gotty \
+    && mkdir /lib64 \
+    && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2 \
+    && rm /tmp/gotty.tar.gz \
+
     # Install Caddy
-    && curl --silent --show-error --fail --location \
-        --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-        "${CADDY_URL}" \
-        | tar --no-same-owner -C /usr/sbin/ -xz caddy \
     && chmod 0755 /usr/sbin/caddy \
     && setcap "cap_net_bind_service=+ep" /usr/sbin/caddy \
 
