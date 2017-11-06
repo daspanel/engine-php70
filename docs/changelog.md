@@ -1,8 +1,25 @@
 # Changelog - admindaspanel / engine-php70
 
+### 0.7.0
+__Changes__
+
+- bumped to version 0.7.0
+- The Caddy server is, from now on, compiled from sources and is no longer downloaded as a binary - as required by Caddy's new licensing rules. Caddy was also upgraded to version v0.10.10. Added web console.
+- Added console service using gotty.
+- Template updates to enable console access.
+
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Mon 06 Nov 2017 -
+[see the diff](https://github.com/admindaspanel/engine-php70/compare/0.6.1...0.7.0#diff)
+______________
+
 ### 0.6.1
 __Changes__
 
+- See changes in CHANGELOG.md
 - bumped to version 0.6.1
 - Fix: Missing Caddy module.
 
