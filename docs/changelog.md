@@ -1,8 +1,23 @@
 # Changelog - admindaspanel / engine-php70
 
+### 0.8.0
+__Changes__
+
+- bumped to version 0.8.0
+- Added to the Caddy templates a proxy configuration under the _ds url to allow browser access to a nodejs server running on port 3000. The nodejs server has to be started using the web console.
+
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Mon 06 Nov 2017 -
+[see the diff](https://github.com/admindaspanel/engine-php70/compare/0.7.0...0.8.0#diff)
+______________
+
 ### 0.7.0
 __Changes__
 
+- See changes in CHANGELOG.md
 - bumped to version 0.7.0
 - The Caddy server is, from now on, compiled from sources and is no longer downloaded as a binary - as required by Caddy's new licensing rules. Caddy was also upgraded to version v0.10.10. Added web console.
 - Added console service using gotty.
