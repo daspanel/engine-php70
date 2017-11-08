@@ -40,6 +40,11 @@ _ds.{{ (getenv "SITECFG" | json).name }}:443 {
         transparent
         insecure_skip_verify
     }
+    proxy /port/8080 127.0.0.1:8080 {
+        without /port/8080
+        transparent
+        insecure_skip_verify
+    }
     header / {
         X-Frame-Options        SAMEORIGIN
         X-Content-Type-Options nosniff
