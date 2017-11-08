@@ -86,7 +86,7 @@ function permissions() {
     find ${CACHE_PREFIX}/php-fpm7 ! -user daspanel -exec /usr/bin/env bash -c "chown daspanel:daspanel {}" \;
 
     find ${APP_DOCROOT} ! -perm 755 -type d -exec /usr/bin/env bash -c "chmod 755 {}" \;
-    find ${APP_DOCROOT} ! -perm 644 -type f -exec /usr/bin/env bash -c "chmod 644 {}" \;
+    find ${APP_DOCROOT} ! -perm 755 -type f -exec /usr/bin/env bash -c "chmod 755 {}" \;
 
     find ${CACHE_PREFIX}/fastcgi ! -perm 755 -type d -exec /usr/bin/env bash -c "chmod 755 {}" \;
     find ${CACHE_PREFIX}/fastcgi ! -perm 755 -type f -exec /usr/bin/env bash -c "chmod 755 {}" \;
@@ -95,10 +95,10 @@ function permissions() {
     find ${CACHE_PREFIX}/php-fpm7 ! -perm 755 -type f -exec /usr/bin/env bash -c "chmod 755 {}" \;
 
     find ${PHP_CHDIR} ! -perm 755 -type d -exec /usr/bin/env bash -c "chmod 755 {}" \;
-    find ${PHP_CHDIR} ! -perm 644 -type f -exec /usr/bin/env bash -c "chmod 644 {}" \;
+    find ${PHP_CHDIR} ! -perm 755 -type f -exec /usr/bin/env bash -c "chmod 755 {}" \;
 
     find ${PHP_SESSION_PATH} ! -perm 755 -type d -exec /usr/bin/env bash -c "chmod 755 {}" \;
-    find ${PHP_SESSION_PATH} ! -perm 644 -type f -exec /usr/bin/env bash -c "chmod 644 {}" \;
+    find ${PHP_SESSION_PATH} ! -perm 755 -type f -exec /usr/bin/env bash -c "chmod 755 {}" \;
 
 
 }
