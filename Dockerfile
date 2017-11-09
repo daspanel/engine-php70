@@ -85,7 +85,7 @@ LABEL org.label-schema.schema-version="1.0" \
       org.label-schema.name="daspanel/engine-php70" \
       org.label-schema.description="This service provides HTTP php 7.0 engine server to Daspanel sites."
 
-
+ENV TERM=xterm-256color
 ENV VAR_PREFIX=/var/run
 ENV LOG_PREFIX=/var/log/php-fpm7
 ENV TEMP_PREFIX=/tmp
