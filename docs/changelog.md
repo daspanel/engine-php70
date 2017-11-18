@@ -1,8 +1,24 @@
 # Changelog - admindaspanel / engine-php70
 
+### 0.11.0
+__Changes__
+
+- bumped to version 0.11.0
+- Updated version of browscap.ini
+- Disabled the changing of file and directory permissions when php-fpm configuration is generated.
+
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Sat 18 Nov 2017 -
+[see the diff](https://github.com/admindaspanel/engine-php70/compare/0.10.0...0.11.0#diff)
+______________
+
 ### 0.10.0
 __Changes__
 
+- See changes in CHANGELOG.md
 - bumped to version 0.10.0
 - Fix parameters received. The second must be the dir of the site.
 
