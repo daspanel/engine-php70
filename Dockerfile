@@ -28,7 +28,7 @@ ARG DASPANEL_IMG_NAME=engine-php70
 ARG DASPANEL_OS_VERSION=alpine3.6
 
 # Parse Container specific arguments for the build command.
-ARG GOTTY_URL="https://github.com/yudai/gotty/releases/download/pre-release/gotty_2.0.0-alpha.2_linux_amd64.tar.gz"
+ARG GOTTY_URL="https://github.com/yudai/gotty/releases/download/v2.0.0-alpha.3/gotty_2.0.0-alpha.3_linux_amd64.tar.gz"
 
 # PHP minimal modules to install - run's Worpress, Grav and others
 ARG PHP_MINIMAL="php7-fpm php7 php7-common php7-pear php7-phar php7-posix \
