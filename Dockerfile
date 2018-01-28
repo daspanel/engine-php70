@@ -29,6 +29,8 @@ ARG DASPANEL_OS_VERSION=alpine3.6
 
 # Parse Container specific arguments for the build command.
 ARG GOTTY_URL="https://github.com/yudai/gotty/releases/download/v2.0.0-alpha.3/gotty_2.0.0-alpha.3_linux_amd64.tar.gz"
+ARG WP_CLI_VERSION="1.4.1"
+ARG WPCLI_URL="https://github.com/wp-cli/wp-cli/releases/download/v${WP_CLI_VERSION}/wp-cli-${WP_CLI_VERSION}.phar"
 
 # PHP minimal modules to install - run's Worpress, Grav and others
 ARG PHP_MINIMAL="php7-fpm php7 php7-common php7-pear php7-phar php7-posix \
@@ -90,6 +92,11 @@ ENV VAR_PREFIX=/var/run
 ENV LOG_PREFIX=/var/log/php-fpm7
 ENV TEMP_PREFIX=/tmp
 ENV CACHE_PREFIX=/var/cache
+
+# Solves: https://github.com/wp-cli/wp-cli/issues/4246#issuecomment-325774849
+# less: unrecognized option: r
+# BusyBox v1.26.2 (2017-06-11 06:38:32 GMT) multi-call binary.
+ENV PAGER='more' 
 
 # Inject files in container file system
 COPY rootfs /
@@ -156,6 +163,12 @@ RUN set -x \
 
     # Remove build environment packages
     && sh /opt/daspanel/bootstrap/${DASPANEL_OS_VERSION}/${DASPANEL_IMG_NAME}/09_cleanbuildenv \
+
+    # Install wp-cli
+    && curl --progress-bar --show-error --fail --location \
+        --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o /usr/local/bin/wp \
+        "${WPCLI_URL}" \
+    && chmod 0755 /usr/local/bin/wp \
 
     # Install gotty
     && curl --progress-bar --show-error --fail --location \
